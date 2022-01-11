@@ -6,7 +6,7 @@ description: "How do React Hooks work? What are they good for? Why should I use 
 
 Within the past few months I've started to understand the react eco-system more.
 
-And found myself using React Hooks. I was inspired to write this blog when I used a ``useState`` hook to detect browser width and conditionally render a ui component some time ago.
+And found myself using React Hooks. I was inspired to write this blog post when I used a ``useState`` hook to detect browser width and conditionally render a ui component some time ago.
 
 So I thought to myself, "What I cannot create [&& explain], I do not understand."
 
@@ -20,7 +20,7 @@ These are:
 - __useState()__
 - __useEffect()__
 - __useContext()__
-- __useEffect()__
+- __useReducer()__
 
 ## ```useState()```
 

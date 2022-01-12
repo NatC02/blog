@@ -1,7 +1,7 @@
 ---
 title: React Hooks, a simplistic overview
 date: "2022-01-09"
-description: "How do React Hooks work? What are they good for? Why should I use them? How do I use them? This and more... I explain with a simplistic overview." 
+description: "How do React Hooks work?" 
 ---
 
 Within the past few months I've started to understand the react eco-system more.

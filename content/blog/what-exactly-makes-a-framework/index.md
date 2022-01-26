@@ -1,6 +1,6 @@
 ---
 title: What exactly makes a framework?
-date: "2022-01-23"
+date: "2022-01-26"
 description: "A framework is made up of a TON of different tools. It's good to be aware of them and how they work within the bigger picture."
 ---
 

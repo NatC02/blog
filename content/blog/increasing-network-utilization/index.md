@@ -293,9 +293,11 @@ Pipelining now is disabled by default because it was superceded by HTTP/2's Mult
 There have been many efforts made to reduce latency with each improvement to the first step in connecting to a server. I hope this article helped to bring some understanding of how iterative additions have improved performance at the network level.
 
 
-## Recommended 
+## Resources
 
 [Adaptive Loading](https://addyosmani.com/blog/adaptive-loading/)
+
+[Adaptive Loading and Improving Performance on Slow Devices](https://web.dev/adaptive-loading-cds-2019/)
 
 [About Content Delivery Networks](https://web.dev/content-delivery-networks/#initial-audit)
 

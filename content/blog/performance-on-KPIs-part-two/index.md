@@ -10,7 +10,7 @@ This post is a continuation of performance metrics and Key Performance Indicator
 
 The cumulative layout shift score metric is the sum of all unexpected layout shifts that occur from the time the page first loads and the time its lifecycle state goes to hidden. The Cumulative Layout Shift (CLS) is an important user-centric metric for gauging visual stability since it quantifies how often users experience unexpected layout shifts—a low CLS indicates that the page is enjoyable.
 
-Improving CLS can improve ad revenue. iCook improved CLS by 15% and saw a 10% increase in ad revenue as a result.
+[Improving CLS can improve ad revenue. iCook improved CLS by 15% and saw a 10% increase in ad revenue as a result.](https://wpostats.com/2021/03/18/icook-ad-revenue.html)
 
 
 
@@ -74,7 +74,7 @@ This implementation holds the images inside the grid areas and resizes them usin
 
 The time between when a user interacts with your site for the first time (i.e. when they click a link, push a button, or utilize a custom, JavaScript-powered control) and when the browser is able to respond to that interaction is known as the First Input Delay. In other terms, it is the time interval between the initial user interaction on a web page and the browser's reaction to that interaction, measured in milliseconds. This measure does not take into account scrolling or zooming.
 
-Reducating FID can yield mobile ad revenue. Swappie reduced their FID by 90% (among others) and saw a 42% increase in mobile revenue and a 10 percentage point increase in relative mobile conversion rate.
+Reducating FID can yield mobile ad revenue. [Swappie reduced their FID by 90% (among other metrics) and saw a 42% increase in mobile revenue and a 10 percentage point increase in relative mobile conversion rate.](https://wpostats.com/2021/09/16/swappie-revenue-increase.html)
 
 ### FID in 2021
 
@@ -96,7 +96,8 @@ FID's rank-based performance was flat. We see very huge bars in the "good" categ
 ### Performance improvement tip
 
 Having small bundle sizes and third-party scripts increases the FID metric. The most common improvement is to reduce long-running Javascript.
-### [Note: Offset your Third Party Scripts to a Web Worker by using partytown] town(https://github.com/BuilderIO/partytown).
+
+### [Note: Offset your Third Party Scripts to a Web Worker by using partytown](https://github.com/BuilderIO/partytown).
 
 
 
@@ -104,7 +105,7 @@ Having small bundle sizes and third-party scripts increases the FID metric. The 
 
 The time between FCP and TTI is known as Total Blocking Time. This is the time where the main thread is blocked and prevents responsive input.  Because it measures load responsiveness, Total Blocking Time is an high priority metric. The degree of how non-interactive a page is before it becomes effectively interactive is measured by load responsiveness—a low TBT ensures that the page is functional.
 
-Web Vitals optimized Mercado Libre (TBT included). In order to test and enhance the interactivity of product detail pages in the real world, TBT was used as a proxy metric in the lab. [They optimized the product detail pages' interaction for a 90% reduction in Max Potential FID in Lighthouse and a 9% improvement in FID in Chrome User Experience Report (2020)]. (https://web.dev/how-mercadolibre-optimized-web-vitals/).
+Web Vitals optimized Mercado Libre (TBT included). In order to test and enhance the interactivity of product detail pages in the real world, TBT was used as a proxy metric in the lab. [They optimized the product detail pages' interaction for a 90% reduction in Max Potential FID in Lighthouse and a 9% improvement in FID in Chrome User Experience Report (2020).](https://web.dev/how-mercadolibre-optimized-web-vitals/).
 
 ## TBT in 2021
 

@@ -4,173 +4,134 @@ date: "2022-04-16"
 description: "Part two of performance metrics on KPIs and improvements"
 ---
 
-User metrics are what drive the internet. Daily and weekly, there's always the next improvement to an existing framework, dependency, or library. All [vary by size](https://bundlephobia.com/). There's a good reason to monitor the size of a dependency. For one, it directly impacts how fast a web page will load for different network conditions. And two, it reduces the reliance on a dependency that has the possibility of being abandoned in the future. This is a small example of why performance is important and it perfectly correlates with a Key Performance Indicator like [Bounce Rate](https://en.wikipedia.org/wiki/Bounce_rate) depending on the web application.
+This post is a continuation of performance metrics and Key Performance Indicators. These are the rest of the performance metrics to be aware of, so let’s get right to it.
 
-As with many things software engineering, it often depends on HOW you would like to implement a feature and the requirements in order to set a [performance budget](https://developer.mozilla.org/en-US/docs/Web/Performance/Performance_budgets) and monitor the application. Almost always, the best monitoring is [Real User Monitoring](https://developer.mozilla.org/en-US/docs/Glossary/Real_User_Monitoring) (RUM). RUM relies on actual people clicking on the page to take important measurements rather than automated tests simply going over a given set of test steps. Monitoring user interaction within a website or an application is important because it helps to determine if users are being served quickly and without errors and, if not, which part of a business process is failing.
+# [Cumulative Layout Shift (CLS)](https://developer.mozilla.org/en-US/docs/Web/API/Layout_Instability_API)
 
-In this first part article, I will analyse the current landscape of performance across the top ranked +5,700,000 million sites on Desktop and +8,200,000 on mobile, how these metrics could impact important KPIs like [Conversion rates](https://en.wikipedia.org/wiki/Conversion_rate_optimization), [Abandonment rates](https://en.wikipedia.org/wiki/Abandonment_rate), [Bounce rates](https://en.wikipedia.org/wiki/Bounce_rate), [Session Durations](https://en.wikipedia.org/wiki/Session_(web_analytics)), Engagement, Traffic and ad revenue. By giving practical examples of companies that have implemented the performance improvement using case studies, and provide some tips, show off small snippets of template implementation for some areas.
+The cumulative layout shift score metric is the sum of all unexpected layout shifts that occur from the time the page first loads and the time its lifecycle state goes to hidden. The Cumulative Layout Shift (CLS) is an important user-centric metric for gauging visual stability since it quantifies how often users experience unexpected layout shifts—a low CLS indicates that the page is enjoyable.
 
-I had to rewrite the entirety of this post (Not fun) because I was using March 2019 to March 2022 performance metrics. Because HOW the APIs’ metric is measured for users could change. For example, [changes in thresholds for First Contentful Paint and other metrics](https://web.dev/defining-core-web-vitals-thresholds/). So the best possible metrics are those from 2021 because they are the most consistent and relevant. Exciting!? Great! Let's dive in!
-
-
-# [Time-to-First-Byte (TTFB)](https://developer.mozilla.org/en-US/docs/Glossary/time_to_first_byte)
-
-Time-to-First- Byte is the time it takes for a page to load from start to finish, including when the page's initial scripts (if any) have loaded and it can reliably respond to user input. When it comes to measuring connection setup time and web server responsiveness, the time to first byte is crucial. It can be used to determine when a web server is taking too long to reply to queries. It comes before any other useful loading performance metric in the case of navigation requests. This means it takes priority before the HTML document is requested. [It is the Real-world server response latencies, as experienced by real-world users navigating the web.](https://ismyhostfastyet.com/).
-
-Radins made significant improvements to their Time-to-First-Byte and experienced significant net positives in their KPIs. Radins did this by improving their Speed Index by 51% for desktop experience and saw a significant increase in conversion by +12% and a drop in bounce rates by -25%. Google DoubleClick's study concluded that 53% of visitors leave a website if they believe it takes more than 3 seconds to render. The constant here is the network condition.
-
-## TTFB in 2021
-
-https://almanac.httparchive.org/static/images/2021/performance/performance-TTFB-by-device.png
-
-This year, desktop TTFB was faster than mobile, attributed to higher network rates. In comparison to the previous year, TTFB improved somewhat on desktop but slowed on mobile.
-
-https://almanac.httparchive.org/static/images/2021/performance/performance-TTFB-by-ect.png
-
-TTFB is still has a long way off. 75% of websites were on a 4G connection, 25% on a 3G connection, and the rest were insignificant or irrelevant. Only 19% of origins had "good" performance at 4G effective speeds. TTFB happens over an offline connection by Service worker caching. Service worker caching is likely used by the majority of offline sites that record and relay TTFB data. Even if the response is coming from the Cache Storage API or the HTTP Cache. TTFB counts how long it takes for the first byte of the response to be received for the page. There is no need for a dedicated server for this since it comes from the client themselves. 
-
-The time it takes the service worker thread to start up and handle the response might also contribute to TTFB if the response demands action from the service worker. Even when service worker starting times are taken into account, these sites receive their first byte on average faster than the other connection types.
-
-https://almanac.httparchive.org/static/images/2021/performance/performance-TTFB-by-rank.png
-
-In terms of rank, higher-ranking sites had a faster TTFB. One factor might be that most of these organisations are larger and have greater resources to focus on performance. They could concentrate on increasing server performance and providing assets via edge CDNs. Another factor might be selection bias: in locations with nearby servers, i.e. reduced latency, the top sources may be accessed more frequently. Another approach is to use a content management system (CMS).
-
-https://almanac.httparchive.org/static/images/2021/performance/cms-adoption-by-rank.png
-
-In the "all" group, 42 percent of pages (mobile) utilised a CMS, but just 7% of the top 1,000 sites did. When we look at the top 5 CMSs in order of popularity, we can find that WordPress is the most popular, accounting for 33.6 percent of "all" pages:
-
-https://almanac.httparchive.org/static/images/2021/performance/top-cmss-by-rank.png
-
-Below is how each CMS performs by metric:
-
-https://datastudio.google.com/reporting/55bc8fad-44c2-4280-aa0b-5f3f0cd3d2be/page/M6ZPC?s=o6zLzlTpWaI
-
-In July 2021, just 5% of WordPress sources experienced decent TTFB. Given WordPress's substantial percentage in the top 10 million websites, its low TTFB might be a factor in the TTFB deterioration by rank.
-
-## Tips for improvement
-
-A tool to retrieve your performance metrics, besides Lighthouse, is [GTmetrix](https://gtmetrix.com/). You could do edge [caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#types_of_caches) for HTML.
-
-# [First Contentful Paint (FCP)](https://developer.mozilla.org/en-US/docs/Glossary/First_contentful_paint)
-
-The First Contentful Paint is the time it takes for the page's main content to display on the screen when the navigation begins. First Contentful Paint is a more technical term that refers to the time between when the page first loads and when any part of the page's content is rendered on the screen. Because it reflects the first point in the page load timeline where the user can see anything on the screen, First Contentful Paint is an important, user-centric metric for measuring perceived load speed. A quick First Contentful Paint helps reassure the user that something is actually occurring.
-
-FCP is important for KPIs like conversion rate. Yelp, improved their FCP and gained better performance and improvement. [Yelp reduced FCP (75th percentile) by 45% and Page Complete (75th percentile) by 25% and saw a 15% improvement in their conversion rate.](https://engineeringblog.yelp.com/2021/01/boosting-user-conversion-with-ux-performance-wins.html). Unsurprisingly, the same improvements to user timing can yield better performance and happier user engagement across the web.
-
-## FCP in 2021
-
-The performance of FCP paint across the web for mobile devices decreased.
-
-https://almanac.httparchive.org/static/images/2021/performance/performance-FCP-by-device.png
-
-Why? Both greater average network speeds and quicker CPUs could be to blame. On mobile, just 38% of origins (URLs) had good FCP. [Resources that obstruct rendering](https://developer.mozilla.org/en-US/docs/Web/Progressive web apps/Loading#render-blocking resources) typical issue  is synchronous JavaScript . Because the initial portion of FCP is TTFB, a low TTFB will make achieving a good FCP challenging.
-
-https://almanac.httparchive.org/static/images/2021/performance/performance-FCP-by-ect.png
-
-Clients at 3G and below speeds experienced significant degradations in FCP during 2021. Using RUM to analyze real devices and networks that reflect a web app's user data from analytics helps in this regard. Packaging large JavaScript bundles using highend desktops with fiber connections is not representative of most users in the wild. Offline connections were closer in performance to 4G though not quite as good. [Service worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers#the_premise_of_service_workers) start-up time plus [multiple cache reads](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#vocabulary) could have contributed. More factors come into play with FCP than with TTFB.
+Improving CLS can improve ad revenue. iCook improved CLS by 15% and saw a 10% increase in ad revenue as a result.
 
 
 
+## CLS in 2021
 
-## Implementation for improvement
+<img src="https://almanac.httparchive.org/static/images/2021/performance/performance-CLS-by-device.png"/>
 
-```js
-// React Hook for adapting based on network status (2G, 3G, 4G)
-// For a news site, if the speed is 2G you could decide to only display the MOST popular news
-// For a car rental company, you could decide to showcase the car with an image instead of a video, unless the user clicks
+Because CLS is defined by how much layout shift a user perceives rather than how long it takes to visually see something like FCP and LCP, its performance across devices was very consistent.
 
-import React from "react";
+<img src="https://almanac.httparchive.org/static/images/2021/performance/performance-CLS-by-ect.png"/>
 
-import { useNetworkStatus } from "react-adaptive-hooks/network";
+In comparison to FCP and LCP, performance loss from 4G to 3G and below was not as noticeable. There is some loss, but it isn't shown in the device data; only the connection type is affected. Of all connection types, offline websites had the best CLS performance. Some assets, such as photos and advertising, that might otherwise cause layout alterations may not be cached on sites with service worker caching. As a result, they'd never load and would never trigger a layout shift. More basic versions of the online website are frequently used as fallback HTML for these sites.
 
-const MyComponent = () => {
-  const { effectiveConnectionType } = useNetworkStatus();
+<img src="https://almanac.httparchive.org/static/images/2021/performance/performance-CLS-by-rank.png"/>
 
-  let media;
-  switch (effectiveConnectionType) {
-    case "2g":
-      media = <img src="medium-res.jpg" />;
-      break;
-    case "3g":
-      media = <img src="high-res.jpg" />;
-      break;
-    case "4g":
-      media = (
-        <video muted controls>
-          ...
-        </video>
-      );
-      break;
-    default:
-      media = (
-        <video muted controls>
-          ...
-        </video>
-      );
-      break;
+For the top 10,000 websites, CLS performance revealed an unusual dip. Furthermore, all of the rated groups above 1Million (M) outperformed the sites ranked below 1M. The sub-1M group performs better since the "all" group outperformed all of the other ranking groupings. 
+
+The sub-1M group performs better since the "all" group outperformed all of the other ranking groupings. WordPress may have played a hand in this metric and others again, since 60% of WordPress-based origins had a good CLS.
+
+## Tips for Improvement
+
+Reserving space for images using CSS-grid is a notable performance improvement. I love me [some css grid tricks](https://css-tricks.com/a-responsive-grid-layout-with-no-media-queries/)
+
+```HTML
+
+<title>Same fit image in grid</title>
+<style>
+.grid { 
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 20px;
+  align-items: stretch;
   }
+.grid img {
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+  max-width: 100%;
+}
+</style>
+<main class="grid">
+  <img src="sample1.jpg" alt="Sample photo one">
+  <img src="sample2.jpg" alt="Sample photo two">
+  <img src="sample3.jpg" alt="Sample photo three">
+  <img src="sample4.jpg" alt="Sample photo four">
+  <img src="sample5.jpg" alt="Sample photo five">
+  <img src="sample6.jpg" alt="Sample photo six">
+</main>
 
-  return <div>{media}</div>;
-};
 ```
 
-As my first ever shameless plug (I feel old saying that), checkout my previous blog post for [implementation of improving FCP based on different network conditions](https://natc02.github.io/blog/increasing-network-utilization/).
-# [Largest Contentful Paint (LCP)](https://developer.mozilla.org/en-US/docs/Web/API/Largest_Contentful_Paint_API)
+This implementation holds the images inside the grid areas and resizes them using ```grid-template-columns``` and ```align-items``` stretch property. This is only one of many improvements that can be implemented. Gains for improving performance for CLS can come from eliminating text-shifts when web fonts are loaded, top banners being inserted after the [First Paint](https://developer.mozilla.org/en-US/docs/Glossary/First_paint), [non-composited animations and iframes](https://cocolyze.com/en/seo-glossary/non-composited-animations).
 
-The LCP is the time it takes for a page to load from the time the first text block or image element appears on the screen to the time the largest text block or image element is rendered on the screen. Because it marks the point in the page load timeline when the website's major content has likely loaded, LCP is an important, user-centric metric for measuring perceived load speed. A fast LCP helps reassure the user that the page is valuable.
 
-A practical look on why this is important is Vodafone, [who improved their LCP by 31%, resulting in an 8% increase in sales, a 15% increase in their lead to visit rate, and an 11% increase in their cart to visit rate.](https://web.dev/vodafone/).
 
-## LCP in 2021
 
-The performance metric of LCP was faster on desktop than mobile.
 
-https://almanac.httparchive.org/static/images/2021/performance/performance-LCP-by-device.png
 
-TTFB has the same effect on LCP as it does on FCP. The trends in FCP are mirrored in comparisons by device, connection type, and rank. LCP performance is influenced by render-blocking resources, total weight, and loading strategies.
 
-https://almanac.httparchive.org/static/images/2021/performance/performance-LCP-by-ect.png
 
-Offline URLs with good LCP were more closely matched to 4G experiences, while offline origins with low LCP were higher. LCP happens after FCP, and the extra budget of 0.7 seconds may explain why more offline websites scored well on LCP than on FCP.
+## First Input Delay (FID)
 
-https://almanac.httparchive.org/static/images/2021/performance/performance-LCP-by-rank.png
+The time between when a user interacts with your site for the first time (i.e. when they click a link, push a button, or utilize a custom, JavaScript-powered control) and when the browser is able to respond to that interaction is known as the First Input Delay. In other terms, it is the time interval between the initial user interaction on a web page and the browser's reaction to that interaction, measured in milliseconds. This measure does not take into account scrolling or zooming.
 
-The performance differences by rank were closer in LCP than in FCP. In addition, the top 1,000 origins had a higher share of origins with poor LCP. On WordPress, 28% of origins reported having good LCP. Poor LCP is usually caused by a number of issues, thus this is an opportunity to improve the user experience.
+Reducating FID can yield mobile ad revenue. Swappie reduced their FID by 90% (among others) and saw a 42% increase in mobile revenue and a 10 percentage point increase in relative mobile conversion rate.
+
+### FID in 2021
+
+
+<img src="https://almanac.httparchive.org/static/images/2021/performance/performance-FID-by-device.png"/>
+
+FID performance on desktops was higher than on mobile devices, thanks to faster device speeds that can execute and handle large JavaScript better.
+
+<img src="https://almanac.httparchive.org/static/images/2021/performance/performance-FID-by-ect.png"/>
+
+The performance of FID was affected by connection type to some extent, although not as much as the other measures. The wide range of scores seems to limit the amount of variation in the outcomes. FID was worse for offline websites than every other connection category, unlike the other parameters. This might be owing to the fact that many websites with service workers are more complex.
+
+Also to note is that the impact of client-side JavaScript executing on the [main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread) is not mitigated by using a service worker.
+
+<img src="https://almanac.httparchive.org/static/images/2021/performance/performance-FID-by-rank.png"/>
+
+FID's rank-based performance was flat. We see very huge bars in the "good" category for all FID measures, making it less beneficial until we've genuinely reached peak performance.
+
+### Performance improvement tip
+
+Having small bundle sizes and third-party scripts increases the FID metric. The most common improvement is to reduce long-running Javascript.
+### [Note: Offset your Third Party Scripts to a Web Worker by using partytown] town(https://github.com/BuilderIO/partytown).
+
+
+
+## Total Blocking Time (TBT)
+
+The time between FCP and TTI is known as Total Blocking Time. This is the time where the main thread is blocked and prevents responsive input.  Because it measures load responsiveness, Total Blocking Time is an high priority metric. The degree of how non-interactive a page is before it becomes effectively interactive is measured by load responsiveness—a low TBT ensures that the page is functional.
+
+Web Vitals optimized Mercado Libre (TBT included). In order to test and enhance the interactivity of product detail pages in the real world, TBT was used as a proxy metric in the lab. [They optimized the product detail pages' interaction for a 90% reduction in Max Potential FID in Lighthouse and a 9% improvement in FID in Chrome User Experience Report (2020)]. (https://web.dev/how-mercadolibre-optimized-web-vitals/).
+
+## TBT in 2021
+
+TBT is only available in Mobile. 
+
+<img src="https://almanac.httparchive.org/static/images/2021/performance/performance-tbt.png"/>
+
+
+WebPageTest does not represent real-world user experiences, therefore the data comes from a single throttled-CPU Lighthouse run. When comparing TBT to FID, however, actual interactivity was shown to be much poorer. According to Web Almanac,   the "real" assessment interaction is somewhere in the center. Whether your FID is "good," they recommend looking at TBT to determine if you're missing any unpleasant user experiences that FID isn't picking up on. The same issues that create bad FID also cause poor TBT.
 
 ## Tips for improvement
 
-Lazy loading of the LCP element is an [anti-pattern](https://en.wikipedia.org/wiki/Anti-pattern) and causes more delays for the render.
-
-### Implementation with [LazyLoad](https://www.andreaverlicchi.eu/vanilla-lazyload/).
-
-
-
-```html
-<!-- For a plain, boring lazy image–!>
-<img alt="A plain lazy image" class="lazy" data-src="plain_lazy.jpg" />
-
-<!-- For a responsive lazy image w/ srcset and sizes–!>
-
-<img
-  alt="A lazy image"
-  class="lazy"
-  data-src="lazy.jpg"
-  data-srcset="lazy_400.jpg 400w, 
-    lazy_800.jpg 800w"
-  data-sizes="100w"
-/>
-```
-
-Largest Contentful Paint is very important, but the Time To First Byte takes precedence.
-
+1) Cutting JavaScript execution time <br/>
+2) Replacing huge JavaScript libraries with smaller equivalents <br
+3) Discarding any JavaScript that is no longer in use <br/>
+4) Minimizing the impact of third-party code
 
 ## Closing Thoughts
 
-These last 3 performance metrics are important because they lead to a better internet for everyone. But, they also improve KPIs. So its a win-win.
+These last 3 performance metrics are important because they lead to a better internet for everyone. They also notably improve KPIs, in my future projects I will keep these in mind.
+
+<br/>
+<br/>
+
 
 ## Resources
 
-[User centric performance metrics](https://web.dev/user-centric-performance-metrics/) <br/>
-
+[User centric performance metrics](https://web.dev/user-centric-performance-metrics/)
 
 [State of the web](https://almanac.httparchive.org/static/pdfs/web_almanac_2021_en.pdf)

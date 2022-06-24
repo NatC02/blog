@@ -1,5 +1,5 @@
 ---
-title: Rooting phone
+title: Rooting
 date: "2022-04-28"
 description: "How rooting works"
 ---
@@ -63,5 +63,3 @@ These are the most important aspects to know before rooting your own phone. Some
 [All about bootloaders](https://www.androidcentral.com/bootloaders-all-you-ever-wanted-know)
 
 [Difference between locked and unlocked phones](https://joyofandroid.com/difference-locked-unlocked-android-phones/)
-
-
